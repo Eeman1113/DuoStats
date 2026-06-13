@@ -115,6 +115,37 @@
   .swatch{width:12px;height:12px;border-radius:3px;}
   .chart-wrap{position:relative;width:100%;height:280px;}
 
+  .ctitle{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--hare);margin-bottom:12px;}
+  .ctitle svg{width:18px;height:18px;}
+  .i-user{color:var(--macaw)}
+  .section{margin-top:16px;}
+  .dl{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:14px;align-items:baseline;}
+  .dl dt{color:var(--hare);font-weight:700;white-space:nowrap;}
+  .dl dd{margin:0;color:var(--ink);font-weight:700;text-align:right;word-break:break-word;}
+  .pill{display:inline-block;padding:2px 9px;border-radius:7px;font-size:12px;font-weight:800;}
+  .pill.on{background:rgba(88,204,2,.16);color:#7AD93A;}
+  .pill.off{background:var(--surface-2);color:var(--hare);}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{display:flex;align-items:center;gap:8px;background:var(--surface-2);border-radius:10px;padding:7px 11px;font-size:13px;font-weight:800;color:var(--ink);}
+  .chip .when{color:var(--hare-dim);font-weight:700;font-size:12px;}
+  .lvlrow{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:6px;}
+  .lvlrow span:last-child{color:var(--hare);}
+  .lvlsub{font-size:12px;font-weight:700;color:var(--hare-dim);margin-top:7px;}
+  .invite{display:inline-block;margin-top:12px;color:var(--macaw);font-weight:800;font-size:14px;text-decoration:none;}
+  .gauges{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
+  .gitem{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:118px;}
+  .gauge{width:96px;height:96px;}
+  .gauge .g-big{font-family:'Nunito',sans-serif;font-weight:900;font-size:19px;fill:#fff;}
+  .gauge .g-small{font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;fill:var(--hare);letter-spacing:.04em;}
+  .gtitle{font-size:13px;font-weight:800;color:var(--ink);text-align:center;}
+  .gsub{font-size:12px;font-weight:700;color:var(--hare-dim);text-align:center;}
+  .minibars{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .brow{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;}
+  .blabel{width:74px;color:var(--hare);flex:0 0 auto;}
+  .btrack{flex:1;height:14px;background:var(--surface-2);border-radius:8px;overflow:hidden;}
+  .btrack i{display:block;height:100%;border-radius:8px;min-width:6px;}
+  .bval{width:46px;text-align:right;color:var(--ink);flex:0 0 auto;}
+
   @media (max-width:520px){
     .hero{flex-direction:column;text-align:center;gap:12px;padding:22px 18px;}
     .hero-num{font-size:54px;}
@@ -190,6 +221,8 @@
         <canvas id="chart" role="img" aria-label="Daily XP per session with a cumulative total line"></canvas>
       </div>
     </div>
+
+    <div id="more"></div>
   </div>
 </div>
 
@@ -213,18 +246,37 @@
 
   var LEAGUES = ["Bronze","Silver","Gold","Sapphire","Ruby","Emerald","Amethyst","Pearl","Obsidian","Diamond"];
 
-  // built-in demo so the page works even if every proxy is down
+  // built-in demo (full payload) so the page works even if every proxy is down
   var DEMO = {
-    fullname:"Eeman Majumder", name:"Eeman Majumder", username:"EemanMajum",
+    id:743286471, fullname:"Eeman Majumder", name:"Eeman Majumder", username:"EemanMajum",
     avatar:"//simg-ssl.duolingo.com/ssr-avatars/743286471/SSR-vhK0mj1tzA",
     picture:"//simg-ssl.duolingo.com/ssr-avatars/743286471/SSR-vhK0mj1tzA",
-    totalXp:5384, creationDate:1614608456, site_streak:128, streak:128,
-    learning_language:"ja", learning_language_string:"Japanese",
-    daily_goal:10, rupees:9,
-    language_data:{ ja:{ level:13, level_percent:44, level_left:616, next_level:14, points:5384 } },
-    streakData:{ currentStreak:{length:128}, longestStreak:{length:128, achieveDate:"2026-03-02"}, xpGoal:10 },
-    league:{ tier:5, stats:{ number_one_finishes:1, number_two_finishes:1, top_three_finishes:2 } },
-    vocab_size:{ all:0 }, languages:[{language:"ja", points:5384}],
+    bio:"", location:null, totalXp:5384, creationDate:1614608456,
+    site_streak:128, streak:128, streak_extended_today:false,
+    learning_language:"ja", learningLanguage:"ja", fromLanguage:"en", ui_language:"en",
+    learning_language_string:"Japanese", currentCourseId:"DUOLINGO_JA_EN",
+    motivation:"family", subscriberLevel:"FREE", hasPlus:false, deactivated:false,
+    emailVerified:true, hasGoogleId:true, hasFacebookId:false, hasPhoneNumber:false,
+    roles:["users"], ads_enabled:true, transliterate:true,
+    num_observees:0, num_classrooms:0, daily_goal:10, rupees:9,
+    invite_url:"https://invite.duolingo.com/BDHTZTB5CWWKTYNGQ7JOBHNPJU",
+    courses:[{fromLanguage:"en", id:"DUOLINGO_JA_EN", learningLanguage:"ja", title:"Japanese", xp:5384, crowns:0}],
+    language_data:{ ja:{ points:5384, level:13, level_points:1100, level_progress:484, level_left:616,
+      next_level:14, level_percent:44, num_skills_learned:0, fluency_score:0 } },
+    streakData:{
+      currentStreak:{length:128, startDate:"2026-02-05", endDate:"2026-06-12", lastExtendedDate:"2026-06-12"},
+      previousStreak:{length:1, startDate:"2025-12-12", endDate:"2025-12-14"},
+      longestStreak:{length:128, startDate:"2026-02-05", endDate:"2026-06-12", achieveDate:"2026-03-02"},
+      xpGoal:10, updatedTimeZone:"Asia/Kolkata"
+    },
+    last_streak:{length:128, is_available_for_repair:false, days_ago:1},
+    league:{ tier:5, num_wins:0, streak_in_tier:1, stats:{ number_one_finishes:1, number_two_finishes:1, top_three_finishes:2, num_wins:0, streak_in_tier:1 } },
+    vocab_size:{ all:0 },
+    inventory:{ streak_freeze:"2026-02-05 08:18:37", duo_streak_freeze:"2026-02-07 08:02:35",
+      society_streak_freeze_refill:"2026-05-15 17:50:04", avatar_skin_cat:"2026-05-22 14:21:03",
+      avatar_skin_hot_dog:"2026-05-16 14:45:21", avatar_skin_pencil:"2026-05-15 17:45:06" },
+    languages:[{language:"ja", language_string:"Japanese", points:5384, level:13},
+      {language:"es", language_string:"Spanish", points:0, level:1}],
     calendar:[
       {datetime:1780050912000,improvement:22},{datetime:1780157561000,improvement:27},
       {datetime:1780238986000,improvement:20},{datetime:1780323304000,improvement:24},
@@ -264,7 +316,8 @@
     gem:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12l3 6-9 12L3 9l3-6Z"/></svg>',
     crown:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4 4 5-7 5 7 4-4-2 13H5L3 7z"/></svg>',
     book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M19 17H6a2 2 0 0 0-2 2"/></svg>',
-    globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>'
+    globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+    user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>'
   };
 
   function statCard(o){
@@ -385,6 +438,144 @@
     card.style.display = "none";
   }
 
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function cap(s){ s=String(s||""); return s.charAt(0).toUpperCase()+s.slice(1).toLowerCase(); }
+  function num(n){ return (n!=null) ? nf(n) : null; }
+  function fmtISO(s){ if(!s) return null; var t=new Date(s).getTime(); return isNaN(t) ? esc(s) : fmtDate(t); }
+  function pill(b){ return '<span class="pill '+(b?"on":"off")+'">'+(b?"Yes":"No")+'</span>'; }
+  function boolPill(b){ return (typeof b==="boolean") ? pill(b) : null; }
+  function prettyItem(k){ return String(k).replace(/_/g," ").replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
+  function secCard(title, icon, inner){
+    if(!inner) return "";
+    return '<div class="card section"><div class="ctitle"><span class="i-'+icon+'">'+ICONS[icon]+'</span>'+esc(title)+'</div>'+inner+'</div>';
+  }
+  function dl(pairs){
+    var rows = pairs.filter(function(p){ return p[1]!=null && p[1]!==""; });
+    if(!rows.length) return "";
+    return '<dl class="dl">'+rows.map(function(p){ return '<dt>'+esc(p[0])+'</dt><dd>'+p[1]+'</dd>'; }).join("")+'</dl>';
+  }
+
+  function donut(pct, big, small, color){
+    pct = Math.max(0, Math.min(100, pct||0));
+    var r=40, c=2*Math.PI*r, off=c*(1-pct/100);
+    return '<svg viewBox="0 0 96 96" class="gauge">'
+      +'<circle cx="48" cy="48" r="'+r+'" fill="none" stroke="var(--surface-2)" stroke-width="10"/>'
+      +'<circle cx="48" cy="48" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 48 48)"/>'
+      +'<text x="48" y="46" text-anchor="middle" class="g-big">'+esc(big)+'</text>'
+      +'<text x="48" y="62" text-anchor="middle" class="g-small">'+esc(small)+'</text></svg>';
+  }
+  function gItem(svg, title, sub){ return '<div class="gitem">'+svg+'<div class="gtitle">'+esc(title)+'</div><div class="gsub">'+esc(sub)+'</div></div>'; }
+  function miniBars(items){
+    var vals = items.filter(function(i){ return i[1]!=null; });
+    if(!vals.length) return "";
+    var max = Math.max.apply(null, vals.map(function(i){ return i[1]; })); if(max<=0) max=1;
+    return '<div class="minibars">'+vals.map(function(i){
+      return '<div class="brow"><span class="blabel">'+esc(i[0])+'</span><div class="btrack"><i style="width:'+Math.max(5,Math.round(i[1]/max*100))+'%;background:'+i[2]+'"></i></div><span class="bval">'+nf(i[1])+'</span></div>';
+    }).join("")+'</div>';
+  }
+
+  function buildMore(d, x){
+    var sd = d.streakData||{}, cs=sd.currentStreak||{}, ls=sd.longestStreak||{}, ps=sd.previousStreak||{};
+    var inv = d.inventory||{};
+
+    var avgXp = (x.cal && x.cal.length) ? x.cal.reduce(function(a,b){ return a+(b.improvement||0); },0)/x.cal.length : null;
+    var gauges = [];
+    if(x.level!=null) gauges.push(gItem(donut(x.levelPct, "Lv "+x.level, x.levelPct+"%", "#1CB0F6"), "Level progress", nf(x.levelLeft)+" XP to Lv "+x.nextLevel));
+    if(x.maxStreak) gauges.push(gItem(donut(Math.round((x.curStreak/x.maxStreak)*100), nf(x.curStreak), "days", "#FF9600"), "Streak vs best", "Best "+nf(x.maxStreak)+" days"));
+    if(avgXp!=null){ var goal=(d.daily_goal!=null?d.daily_goal:(sd.xpGoal!=null?sd.xpGoal:10))||10;
+      gauges.push(gItem(donut(Math.min(100,Math.round(avgXp/goal*100)), (avgXp/goal).toFixed(1)+"x", "of goal", "#58CC02"), "Daily avg vs goal", Math.round(avgXp)+" vs "+nf(goal)+" XP/day")); }
+    var html = gauges.length ? secCard("At a glance", "lvl", '<div class="gauges">'+gauges.join("")+'</div>') : "";
+
+    var freezes = ["streak_freeze","duo_streak_freeze","society_streak_freeze_refill"].filter(function(k){ return inv[k]; }).length;
+    var streakBars = miniBars([
+      ["Current", x.curStreak, "#58CC02"],
+      ["Longest", x.maxStreak, "#FF9600"],
+      ["Previous", ps.length||null, "#1CB0F6"]
+    ]);
+    html += secCard("Streak", "flame", streakBars + dl([
+      ["Current streak", x.curStreak!=null ? nf(x.curStreak)+" days" : null],
+      ["Started", fmtISO(cs.startDate)],
+      ["Last extended", fmtISO(cs.lastExtendedDate)],
+      ["Longest streak", ls.length ? nf(ls.length)+" days" : null],
+      ["Longest set on", fmtISO(ls.achieveDate)],
+      ["Previous streak", ps.length ? (nf(ps.length)+" day"+(ps.length>1?"s":"")+(ps.startDate?" · "+fmtISO(ps.startDate):"")) : null],
+      ["Daily goal", (d.daily_goal!=null||sd.xpGoal!=null) ? nf(d.daily_goal!=null?d.daily_goal:sd.xpGoal)+" XP" : null],
+      ["Extended today", boolPill(d.streak_extended_today)],
+      ["Streak freezes owned", freezes ? nf(freezes) : null],
+      ["Timezone", sd.updatedTimeZone||null]
+    ]));
+
+    var ld = (d.language_data && d.language_data[d.learning_language]) || {};
+    var levelBar = "";
+    if(x.level!=null){
+      levelBar = '<div class="lvlrow"><span>Level '+x.level+'</span><span>'+x.levelPct+'% to '+x.nextLevel+'</span></div>'
+        + '<div class="bar"><i style="width:'+x.levelPct+'%"></i></div>'
+        + '<div class="lvlsub">'+nf(x.levelLeft)+' XP to level '+x.nextLevel+'</div>';
+    }
+    var active = (d.languages||[]).filter(function(l){ return (l.points||0)>0; });
+    var chipsLang = active.length ? '<div class="chips" style="margin-top:12px">'+active.map(function(l){
+        return '<span class="chip">'+esc(l.language_string||l.language)+'<span class="when">Lv '+(l.level||1)+' · '+nf(l.points)+' XP</span></span>';
+      }).join("")+'</div>' : "";
+    html += secCard("Course & languages", "book", levelBar + dl([
+      ["Current course", esc(x.courseTitle) + (d.fromLanguage ? " (from "+esc(LANG[d.fromLanguage]||d.fromLanguage)+")" : "")],
+      ["Course XP", x.courseXp!=null ? nf(x.courseXp)+" XP" : null],
+      ["Crowns", x.courseCrowns!=null ? nf(x.courseCrowns) : null],
+      ["Skills learned", num(ld.num_skills_learned)],
+      ["Vocabulary", (d.vocab_size&&d.vocab_size.all!=null) ? nf(d.vocab_size.all)+" words" : null],
+      ["Fluency score", num(ld.fluency_score)]
+    ]) + chipsLang);
+
+    if(x.tier!=null){
+      var lg=d.league||{}, st=lg.stats||{};
+      var leagueBars = miniBars([
+        ["1st place", st.number_one_finishes, "#FFC800"],
+        ["2nd place", st.number_two_finishes, "#9AA6AD"],
+        ["Top-3", (st.top_three_finishes!=null?st.top_three_finishes:lg.top_three_finishes), "#CE82FF"]
+      ]);
+      html += secCard("League", "league", leagueBars + dl([
+        ["Tier", LEAGUES[x.tier]||("Tier "+x.tier)],
+        ["1st-place finishes", num(st.number_one_finishes)],
+        ["2nd-place finishes", num(st.number_two_finishes)],
+        ["Top-3 finishes", num(st.top_three_finishes!=null?st.top_three_finishes:lg.top_three_finishes)],
+        ["Wins", num(st.num_wins!=null?st.num_wins:lg.num_wins)],
+        ["Weeks in current tier", num(lg.streak_in_tier!=null?lg.streak_in_tier:st.streak_in_tier)]
+      ]));
+    }
+
+    var invite = d.invite_url ? '<a class="invite" href="'+esc(d.invite_url)+'" target="_blank" rel="noopener">Invite link &#8599;</a>' : "";
+    html += secCard("Account", "user", dl([
+      ["User ID", d.id!=null ? String(d.id) : null],
+      ["Member since", x.created ? fmtDate(x.created)+" · "+ageStr(x.created) : null],
+      ["Status", typeof d.deactivated==="boolean" ? (d.deactivated?"Deactivated":"Active") : null],
+      ["Subscription", d.subscriberLevel ? cap(d.subscriberLevel) : (typeof d.hasPlus==="boolean" ? (d.hasPlus?"Super":"Free") : null)],
+      ["Learning", esc(x.courseTitle)],
+      ["From language", d.fromLanguage ? esc(LANG[d.fromLanguage]||d.fromLanguage) : null],
+      ["Interface language", d.ui_language ? esc(LANG[d.ui_language]||d.ui_language.toUpperCase()) : null],
+      ["Motivation", d.motivation ? cap(d.motivation) : null],
+      ["Gems", x.gems!=null ? nf(x.gems) : null],
+      ["Bio", d.bio ? esc(d.bio) : null],
+      ["Location", d.location ? esc(d.location) : null],
+      ["Following", num(d.num_observees)],
+      ["Classrooms", num(d.num_classrooms)],
+      ["Email verified", boolPill(d.emailVerified!=null?d.emailVerified:d.email_verified)],
+      ["Google linked", boolPill(d.hasGoogleId)],
+      ["Facebook linked", boolPill(d.hasFacebookId)],
+      ["Phone linked", boolPill(d.hasPhoneNumber)],
+      ["Roles", (d.roles&&d.roles.length) ? esc(d.roles.join(", ")) : null],
+      ["Ads", boolPill(d.ads_enabled)],
+      ["Transliteration", boolPill(d.transliterate)]
+    ]) + invite);
+
+    var keys = Object.keys(inv);
+    if(keys.length){
+      html += secCard("Inventory", "gem", '<div class="chips">'+keys.map(function(k){
+        return '<span class="chip">'+esc(prettyItem(k))+'<span class="when">'+fmtISO(String(inv[k]).slice(0,10))+'</span></span>';
+      }).join("")+'</div>');
+    }
+
+    return html;
+  }
+
   var AV_PAL = ["#1CB0F6","#CE82FF","#FF4B6E","#7C5CFF","#159A4E","#E58A00"];
   function avatarColor(s){ var h=0,i; s=s||"?"; for(i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return AV_PAL[h % AV_PAL.length]; }
   function setAvatar(el, url, name){
@@ -451,6 +642,7 @@
 
     $("grid").innerHTML = cards.slice(0,8).join("");
     drawChart(x);
+    $("more").innerHTML = buildMore(d, x);
   }
 
   function setStatus(html, source, kind){

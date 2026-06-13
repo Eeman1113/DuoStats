@@ -288,7 +288,10 @@
     var lang = (d.language_data && d.language_data[d.learning_language]) || null; // legacy/auth only
     var sd = d.streakData || {};
     var lg = d.league || null; var ls = (lg && lg.stats) || {};
-    var totalCrowns = courses.reduce(function(s,c){ return s + (c.crowns||0); }, 0);
+    var SENTINEL = 9999; // Duolingo returns 9999 for crowns it doesn't actually report
+    function realCrowns(v){ return (v == null || v >= SENTINEL) ? null : v; }
+    var crownVals = courses.map(function(c){ return realCrowns(c.crowns); }).filter(function(v){ return v != null; });
+    var totalCrowns = crownVals.length ? crownVals.reduce(function(s,v){ return s+v; }, 0) : null;
     var courseName = function(c){ return (c && (c.title || LANG[c.learningLanguage] || c.learningLanguage)) || null; };
 
     return {
@@ -300,12 +303,13 @@
       curStreak: (d.site_streak != null) ? d.site_streak : (d.streak != null ? d.streak : ((sd.currentStreak||{}).length || 0)),
       maxStreak: ((sd.longestStreak||{}).length) || null,
       maxAchieved: (sd.longestStreak||{}).achieveDate || null,
+      streakStart: (sd.currentStreak||{}).startDate || null,
       courseTitle: courseName(cur) || d.learning_language_string || "Course",
       courseXp: cur ? (cur.xp||0) : (lang ? lang.points : null),
-      courseCrowns: cur ? (cur.crowns||0) : null,
-      courses: courses.map(function(c){ return { name: courseName(c), xp: c.xp||0, crowns: c.crowns||0 }; }),
+      courseCrowns: cur ? realCrowns(cur.crowns) : null,
+      courses: courses.map(function(c){ return { name: courseName(c), xp: c.xp||0, crowns: realCrowns(c.crowns) }; }),
       coursesCount: courses.length || ((d.languages||[]).filter(function(l){return (l.points||0)>0;}).length || null),
-      totalCrowns: courses.length ? totalCrowns : null,
+      totalCrowns: totalCrowns,
       hasPlus: !!d.hasPlus,
       // legacy / auth-only extras — null when the public endpoint didn't return them
       level: lang ? lang.level : null, levelPct: lang ? lang.level_percent : null,
@@ -389,9 +393,9 @@
     $("name").textContent = x.name + (x.hasPlus ? "  ★" : "");
     $("handle").textContent = x.handle ? "@"+x.handle : "";
     $("streak").textContent = nf(x.curStreak);
-    $("streak-sub").textContent = x.maxStreak
-      ? "Longest ever " + nf(x.maxStreak) + " days" + (x.maxAchieved ? " · set " + fmtDate(new Date(x.maxAchieved).getTime()) : "")
-      : "Keeping it going";
+    $("streak-sub").textContent = x.streakStart
+      ? "On a roll since " + fmtDate(new Date(x.streakStart).getTime())
+      : (x.maxStreak ? "Longest ever " + nf(x.maxStreak) + " days" : "Keeping it going");
 
     var cards = [];
     cards.push(statCard({icon:"xp", label:"Total XP", val:nf(x.totalXp), sub:"All-time"}));
@@ -426,7 +430,7 @@
       cards.push(statCard({icon:"gem", label:"Gems", val:nf(x.gems), sub:x.goal!=null ? "Daily goal "+nf(x.goal)+" XP" : ""}));
     }
 
-    $("grid").innerHTML = cards.slice(0,6).join("");
+    $("grid").innerHTML = cards.slice(0,8).join("");
     drawChart(x);
   }
 

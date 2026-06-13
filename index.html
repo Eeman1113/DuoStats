@@ -2,6 +2,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Duolingo · Lifetime Stats</title>
+<link rel="icon" type="image/png" href="https://d35aaqx5ub95lt.cloudfront.net/images/duolingo-touch-icon2.png">
+<link rel="apple-touch-icon" href="https://d35aaqx5ub95lt.cloudfront.net/images/duolingo-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
@@ -19,7 +21,7 @@
 
   /* ---- header + search ---- */
   .brand{display:flex;align-items:center;gap:11px;margin-bottom:18px;}
-  .brand-mark{width:38px;height:38px;flex:0 0 auto;}
+  .brand-mark{width:40px;height:40px;flex:0 0 auto;border-radius:9px;object-fit:cover;display:block;}
   .brand h1{font-size:21px;font-weight:900;letter-spacing:-.01em;}
   .brand h1 b{color:var(--owl);font-weight:900;}
   .brand p{font-size:13px;font-weight:700;color:var(--hare);}
@@ -158,7 +160,7 @@
 
 <div class="app">
   <div class="brand">
-    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#58CC02"/><ellipse cx="9" cy="10.5" rx="2.6" ry="3" fill="#fff"/><ellipse cx="15" cy="10.5" rx="2.6" ry="3" fill="#fff"/><circle cx="9.2" cy="11" r="1.2" fill="#131F24"/><circle cx="14.8" cy="11" r="1.2" fill="#131F24"/><path d="M9.5 15.5q2.5 2 5 0" stroke="#43A047" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M10.4 14.2h3.2l-1.6 1.8z" fill="#FF9600"/></svg>
+    <img class="brand-mark" src="https://d35aaqx5ub95lt.cloudfront.net/images/duolingo-touch-icon2.png" alt="Duolingo">
     <div>
       <h1>Duolingo <b>Lifetime Stats</b></h1>
       <p>Look up any learner's all-time progress</p>
@@ -544,7 +546,6 @@
 
     var invite = d.invite_url ? '<a class="invite" href="'+esc(d.invite_url)+'" target="_blank" rel="noopener">Invite link &#8599;</a>' : "";
     html += secCard("Account", "user", dl([
-      ["User ID", d.id!=null ? String(d.id) : null],
       ["Member since", x.created ? fmtDate(x.created)+" · "+ageStr(x.created) : null],
       ["Status", typeof d.deactivated==="boolean" ? (d.deactivated?"Deactivated":"Active") : null],
       ["Subscription", d.subscriberLevel ? cap(d.subscriberLevel) : (typeof d.hasPlus==="boolean" ? (d.hasPlus?"Super":"Free") : null)],

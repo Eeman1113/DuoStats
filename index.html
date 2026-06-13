@@ -554,9 +554,7 @@
       ["Current course", esc(x.courseTitle) + (d.fromLanguage ? " (from "+esc(LANG[d.fromLanguage]||d.fromLanguage)+")" : "")],
       ["Course XP", x.courseXp!=null ? nf(x.courseXp)+" XP" : null],
       ["Crowns", x.courseCrowns!=null ? nf(x.courseCrowns) : null],
-      ["Skills learned", num(ld.num_skills_learned)],
-      ["Vocabulary", (d.vocab_size&&d.vocab_size.all!=null) ? nf(d.vocab_size.all)+" words" : null],
-      ["Fluency score", num(ld.fluency_score)]
+      ["Vocabulary", (d.vocab_size && d.vocab_size.all) ? nf(d.vocab_size.all)+" words" : null]
     ]) + chipsLang);
 
     if(x.tier!=null){
@@ -588,8 +586,6 @@
       ["Gems", x.gems!=null ? nf(x.gems) : null],
       ["Bio", d.bio ? esc(d.bio) : null],
       ["Location", d.location ? esc(d.location) : null],
-      ["Following", num(d.num_observees)],
-      ["Classrooms", num(d.num_classrooms)],
       ["Email verified", boolPill(d.emailVerified!=null?d.emailVerified:d.email_verified)],
       ["Google linked", boolPill(d.hasGoogleId)],
       ["Facebook linked", boolPill(d.hasFacebookId)],

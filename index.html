@@ -71,8 +71,10 @@
   /* ---- results ---- */
   #results{display:none;}
   .ident{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
-  .avatar{width:54px;height:54px;border-radius:50%;background:var(--surface-2);object-fit:cover;
-    border:3px solid var(--owl);flex:0 0 auto;}
+  .avatar{width:54px;height:54px;border-radius:50%;border:3px solid var(--owl);flex:0 0 auto;
+    overflow:hidden;display:grid;place-items:center;background:var(--surface-2);
+    color:#fff;font-weight:900;font-size:22px;line-height:1;}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
   .ident h2{font-size:22px;font-weight:900;letter-spacing:-.01em;}
   .ident span{font-size:14px;font-weight:700;color:var(--hare);}
 
@@ -158,8 +160,7 @@
 
   <div id="results">
     <div class="ident">
-      <img id="avatar" class="avatar" alt="">
-      <div>
+      <div id="avatar" class="avatar" aria-hidden="true"></div>      <div>
         <h2 id="name">—</h2>
         <span id="handle">@—</span>
       </div>
@@ -384,12 +385,30 @@
     card.style.display = "none";
   }
 
+  var AV_PAL = ["#1CB0F6","#CE82FF","#FF4B6E","#7C5CFF","#159A4E","#E58A00"];
+  function avatarColor(s){ var h=0,i; s=s||"?"; for(i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return AV_PAL[h % AV_PAL.length]; }
+  function setAvatar(el, url, name){
+    var initial = ((name||"?").trim().charAt(0) || "?").toUpperCase();
+    function initials(){ el.textContent = initial; el.style.background = avatarColor(name); }
+    initials(); // shown immediately as placeholder, and kept if the image fails
+    if(!url) return;
+    var retried = false;
+    var img = document.createElement("img");
+    img.alt = name || "";
+    img.referrerPolicy = "no-referrer";
+    img.onload = function(){ el.textContent = ""; el.style.background = "transparent"; el.appendChild(img); };
+    img.onerror = function(){
+      if(!retried){ retried = true; img.src = url.replace(/\/+$/,"") + "/large"; }  // give the real avatar one more try
+      else { initials(); }
+    };
+    img.src = url;
+  }
+
   function render(d){
     var x = extract(d);
     $("empty").style.display = "none";
     $("results").style.display = "block";
-    $("avatar").src = x.avatar || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-    $("avatar").alt = x.name;
+    setAvatar($("avatar"), x.avatar, x.name);
     $("name").textContent = x.name + (x.hasPlus ? "  ★" : "");
     $("handle").textContent = x.handle ? "@"+x.handle : "";
     $("streak").textContent = nf(x.curStreak);
